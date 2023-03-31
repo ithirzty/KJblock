@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         [ONCHE] KJblock
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.2
 // @run-at       document-start
 // @description  try to take over the world!
 // @author       Ordinateur
@@ -36,6 +36,10 @@ function removeSticker(s) {
 
 (function() {
     'use strict';
+    window.addEventListener('load', script)
+})()
+
+function script() {
     // GM_deleteValue("collections")
     // GM_deleteValue("stickers")
     let blacklist = ["kj", "mya", "megumin", "ritsu", "mokou", "bocchi", "touhou", "koi", "byakuren", "sanae", "kokomi", "nana", "foxy", "childe", "kaguya", "chika", "adf", "millefi", "fofolle", "hatsune", "miku",
@@ -120,4 +124,4 @@ function removeSticker(s) {
     GM_setValue("collections", collections)
     GM_setValue("stickers", stickers)
 
-})();
+}
