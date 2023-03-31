@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         [ONCHE] KJblock
 // @namespace    http://tampermonkey.net/
-// @version      0.23
+// @version      0.231
 // @run-at       document-start
 // @description  try to take over the world!
 // @author       Ordinateur
@@ -99,7 +99,7 @@ function script() {
         let name = s.getAttribute("data-name")
 
         //temp blacklist
-        if (isInside(name, ["DanceParty"])) {
+        if (isInside(name, ["DanceParty", "calinneko"])) {
             removeSticker(s)
             return
         }
