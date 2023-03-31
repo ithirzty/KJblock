@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         [ONCHE] KJblock
 // @namespace    http://tampermonkey.net/
-// @version      0.21
+// @version      0.22
 // @run-at       document-start
 // @description  try to take over the world!
 // @author       Ordinateur
@@ -44,7 +44,7 @@ function script() {
     // GM_deleteValue("stickers")
     let blacklist = ["kj", "mya", "megumin", "ritsu", "mokou", "bocchi", "touhou", "koi", "byakuren", "sanae", "kokomi", "nana", "foxy", "childe", "kaguya", "chika", "adf", "millefi", "fofolle", "hatsune", "miku",
                     "madeline", "menhera", "mashiro", "kanna", "lucy", "aza", "malina", "modeus", "waifu", "shemale", "shuten", "gawr", "chibbi", "kiana", "kissou", "kequing", "koko", "ritsu", "trap", "grr", "saya",
-                     "sakuya", "patchouli", "yukari", "sylph", "reimu", "cirno", "reisen", "marisa", "yukari", "futo", "yuyuko", "momiji", "jahy", "hibiki", "sugoi"]
+                     "sakuya", "patchouli", "yukari", "sylph", "reimu", "cirno", "reisen", "marisa", "yukari", "futo", "yuyuko", "momiji", "jahy", "hibiki", "sugoi", "konata"]
     let collections = (GM_getValue("collections") != undefined ? GM_getValue("collections") : [44])
     let stickers = (GM_getValue("stickers") != undefined ? GM_getValue("stickers") : [])
 
