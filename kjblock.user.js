@@ -8,6 +8,8 @@
 // @match        https://onche.org/forum/*
 // @match        https://onche.org/topic/*
 // @icon         https://image.noelshack.com/fichiers/2016/47/1479837070-risitasprisonneutre.jpg
+// @downloadURL  https://github.com/ithirzty/KJblock/raw/main/kjblock.user.js
+// @updateURL    https://github.com/ithirzty/KJblock/raw/main/kjblock.user.js
 // @grant        GM_getValue
 // @grant        GM_setValue
 // @grant        GM_deleteValue
