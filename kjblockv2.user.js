@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         [ONCHE] KJblock v2
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.2
 // @run-at       document-start
 // @description  Cache les stickers KJ.
 // @author       Ordinateur
@@ -17,18 +17,33 @@
 // ==/UserScript==
 
 const DETECTION_TRESHOLD = 0.95
+let settings
 
 function removeSticker(s) {
-    s.classList.add('kj-sticker')
-    if (s.classList.contains("sticker") == false) {
-        s.classList.add('kj-image')
+    if (!settings.replaceEnabled) {
+        s.classList.add('kj-sticker')
+        if (s.classList.contains("sticker") == false) {
+            s.classList.add('kj-image')
+        }
+        return
     }
-    // let e = s
-    // while (e.parentElement && !e.classList.contains("message")) {
-    //     e = e.parentElement
-    // }
+
+    if (settings.replaceSticker) {
+        s.querySelector("img").src = settings.replaceSticker
+    }
+
+    if (settings.replaceAvatar) {
+        let e = s
+        while (e.parentElement && !e.classList.contains("message")) {
+            e = e.parentElement
+        }
+        e.querySelector(".avatar").src = settings.replaceAvatar
+    }
 }
 
+function KJsettings(n, v) {
+    settings[n] = v
+}
 
 (function() {
     'use strict';
@@ -36,7 +51,13 @@ function removeSticker(s) {
 })()
 
 function script() {
-    // GM_deleteValue("stickers")
+    settings = (GM_getValue("settings") != undefined ? GM_getValue("settings") : {
+        replaceEnabled: false,
+        replaceSticker: "",
+        replaceAvatar: ""
+    })
+
+
     let stickers = (GM_getValue("stickers") != undefined ? GM_getValue("stickers") : {})
 
     console.log("Local KJblock cache:", Object.keys(stickers).length, "elements")
@@ -56,6 +77,16 @@ function script() {
     }
     .kj-sticker:hover img {
         opacity: 1;
+    }
+    .kjblock-settings .switch {
+        display: inline-block;
+    }
+    .setting-item {
+        display: flex;
+    }
+    .setting-item span {
+        position: relative;
+        top: 5px;
     }
     `)
 
@@ -88,6 +119,34 @@ function script() {
             })})
         } else if (stickers[url] == true) {
             removeSticker(s)
+        }
+    })
+
+    let settElem = document.createElement("div")
+    settElem.classList.add('bloc')
+    settElem.innerHTML = `
+    <div class="title">KJblock</div>
+    <div class="content rows kjblock-settings">
+    <div class="setting-item"><span>Remplacer les sticker</span><div class="right"><label class="switch"><input ${settings.replaceEnabled? "checked": ""} setting-name="replaceEnabled" class="kj-setting-val" type="checkbox"><div class="switch_content"></div></label></div></div>
+    <div class="kjblock-replace-settings" style="display:${settings.replaceEnabled? "block": "none"}">
+        <div class="setting-item"><input class="input kj-setting-val" setting-name="replaceSticker" placeholder="URL du sticker" type="text"></div>
+        <div class="setting-item"><input class="input kj-setting-val" setting-name="replaceAvatar" placeholder="URL de l'avatar" type="text"></div>
+    </div>
+    </div>
+    </div>
+    `
+    document.querySelector("#right").appendChild(settElem)
+
+    document.querySelectorAll(".kj-setting-val").forEach(e=>{
+        e.value = settings[e.getAttribute("setting-name")]
+        e.onchange = ()=>{
+            let v = e.value
+            if (e.getAttribute("type") == "checkbox") {
+                v = e.checked
+            }
+            settings[e.getAttribute("setting-name")] = v
+            GM_setValue("settings", settings)
+            document.querySelector(".kjblock-replace-settings").style.display = (settings.replaceEnabled? "block": "none")
         }
     })
 }
