@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         [ONCHE] KJblock v2
 // @namespace    http://tampermonkey.net/
-// @version      0.3
+// @version      0.31
 // @run-at       document-start
 // @description  Cache les stickers KJ.
 // @author       Ordinateur
@@ -98,7 +98,7 @@ function script() {
         let url = img.src
 
         if (stickers[url] == undefined) {
-            fetch("http://alois.xyz/kjblock", {
+            fetch("https://alois.xyz/kjblock", {
                 method: 'POST',
                 body: url
             }).then(r=>{r.json().then(score=>{
